@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  apiwithredis:
+    image: ${DOCKER_REGISTRY}apiwithredis
+    build:
+      context: .
+      dockerfile: ApiWithRedis/Dockerfile
+    ports:
+      - "9020:80"
+    networks:
+      - my-network
+    depends_on:
+      - "myrediscache"
+
+  myrediscache:
+    image: redis:alpine
+    ports:
+      - "9010:6379"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
